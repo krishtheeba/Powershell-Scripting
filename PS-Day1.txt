@@ -1,0 +1,642 @@
+	Good Morning All
+
+	Welcome to PowerShell Script  Training 
+           	   ==================
+	This is  Theeba - Trainer , We will start session @ 9:30 AM IST
+-------------------------------------------------------------------------
+
+
+About powershell
+
+cmdlet
+
+Alias
+
+script   (program)
+------------------
+	variables
+	operator
+	conditional statement
+	loop
+	file/directory handling
+	Array
+	hash
+	Function
+	Regx
+	class - object -method
+############################################################################################################
+
+
+cmdlet-  command in powershell envir.
+
+
+verb-noun
+
+ex: get-date 
+
+
+system.datetime
+
+
+
+cmdlet   vs command
+
+get-date  - cmdlet   - record based-  process 1 object at time
+
+date  -  command -   .exe file - text based
+
+
+
+bash                           vs            powershell
+----					--------------------
+
+
+unix/ Linux scripting lang			Windows based scripting lang
+
+cmds are binaries                         ps script---commands + cmdlets	  
+
+text based processing                     ps script - object oriented style
+
+no multidimensional structures            Array - hash
+
+class- object model                       cmdlet instances .NET classess
+
+
+get-process    -----------vs   ps
+get-service
+
+new-Item -path ".\dir" -ItemType directory    -----------> mkdir
+
+new-Item -path ".\dir\s1.txt"            
+
+set-location ".\dir"                             --->  cd
+
+get-help ---> documention to help-     cmdlet
+
+get-help get-date    # get-help <cmdlet>
+
+get-help clear-host -example    #  docs+examples
+
+get-help *    list of cmdlets
+get-host   
+
+powershell verbs
+================
+
+get
+set
+new
+out
+start
+stop
+add
+
+get-verb  
+
+(get-command) .length
+(get-command -All).length
+get-command | out-host -paging
+
+===========  ========     |
+ 
+ cmdlet1      cmdlet2     arg
+
+
+(get-host).name
+(get-host).version.minor
+
+
+
+
+cmdlet 1| cmdlet2 |cmdlet3     $_   -> metacharcter input 
+
+
+cmdlet1|format-list      ---> cmdlet1|fl
+cmdlet1|format-table     ----> cmdlet1 |ft
+
+cmdlet1|out-host        ------> cmdlet1|oh
+
+cmdlet1|get-member         ----> cmdlet|gm
+
+PS C:\Users\theeba\DAY1> (get-date).Adddays(20)
+
+15 December 2024 11:27:24
+########################################################################################################
+Scripts
+=======
+PS C:\Users\theeba\DAY1> get-date|Format-table
+
+DisplayHint Date                Day DayOfWeek DayOfYear Hour  Kind Millisecond Minute Month
+----------- ----                --- --------- --------- ----  ---- ----------- ------ -----
+   DateTime 25-11-2024 00:00:00  25    Monday       330   10 Local          51     52    11
+
+
+PS C:\Users\theeba\DAY1> get-date|ft
+
+DisplayHint Date                Day DayOfWeek DayOfYear Hour  Kind Millisecond Minute Month
+----------- ----                --- --------- --------- ----  ---- ----------- ------ -----
+   DateTime 25-11-2024 00:00:00  25    Monday       330   10 Local         602     52    11
+
+
+PS C:\Users\theeba\DAY1> get-date|Format-List
+
+
+DisplayHint : DateTime
+Date        : 25-11-2024 00:00:00
+Day         : 25
+DayOfWeek   : Monday
+DayOfYear   : 330
+Hour        : 10
+Kind        : Local
+Millisecond : 743
+Minute      : 52
+Month       : 11
+Second      : 47
+Ticks       : 638681287677430263
+TimeOfDay   : 10:52:47.7430263
+Year        : 2024
+DateTime    : 25 November 2024 10:52:47
+
+
+
+PS C:\Users\theeba\DAY1> get-date|fl
+
+
+DisplayHint : DateTime
+Date        : 25-11-2024 00:00:00
+Day         : 25
+DayOfWeek   : Monday
+DayOfYear   : 330
+Hour        : 10
+Kind        : Local
+Millisecond : 294
+Minute      : 53
+Month       : 11
+Second      : 3
+Ticks       : 638681287832942727
+TimeOfDay   : 10:53:03.2942727
+Year        : 2024
+DateTime    : 25 November 2024 10:53:03
+
+
+PS C:\Users\theeba\DAY1> get-date|get-member
+
+
+   TypeName: System.DateTime
+
+Name                 MemberType     Definition
+----                 ----------     ----------
+Add                  Method         datetime Add(timespan value)
+AddDays              Method         datetime AddDays(double value)
+
+
+
+PS C:\Users\theeba\DAY1> get-date|out-host
+
+25 November 2024 10:53:55
+
+
+PS C:\Users\theeba\DAY1> get-date|oh
+
+25 November 2024 10:54:00
+
+PS C:\Users\theeba\DAY1> get-service webclient
+
+Status   Name               DisplayName
+------   ----               -----------
+Stopped  WebClient          webclient
+
+
+PS C:\Users\theeba\DAY1> get-service webclient | format-table
+
+Status   Name               DisplayName
+------   ----               -----------
+Stopped  WebClient          webclient
+
+
+PS C:\Users\theeba\DAY1> get-service webclient | format-table name
+
+Name
+----
+WebClient
+
+
+PS C:\Users\theeba\DAY1> get-service webclient | format-table status
+
+ Status
+ ------
+Stopped
+PS C:\Users\theeba\DAY1> get-date -format "HH:mm:ss tt"
+11:24:53 AM
+PS C:\Users\theeba\DAY1> # dd MM yyyy hh mm ss
+PS C:\Users\theeba\DAY1> get-date
+
+25 November 2024 11:25:34
+
+
+PS C:\Users\theeba\DAY1> get-date | get-member
+
+PS C:\Users\theeba\DAY1> (get-date).Adddays(20).toString("MM-DD-YYYY")
+12-DD-YYYY
+PS C:\Users\theeba\DAY1> (get-date).Adddays(20)
+
+15 December 2024 11:28:25
+
+
+PS C:\Users\theeba\DAY1> [datetime]:: FromFileTime("123456789000000000")
+
+22 March 1992 00:45:00
+
+
+###########################################################################################################
+
+pipe
+----
+'cmdlet|result manipulation|sort object |select| format'
+
+
+Alias
+----
+
+get-alias    
+
+############################################################################
+Script
+------
+PS C:\Users\theeba\DAY1> new-alias -name d -value get-date
+PS C:\Users\theeba\DAY1> d
+
+25 November 2024 11:55:11
+
+
+PS C:\Users\theeba\DAY1> Get-Alias -name cd
+
+CommandType     Name                                               Version    Source
+-----------     ----                                               -------    ------
+Alias           cd -> Set-Location
+
+
+###############################################################################
+
+task
+====
+1. Display the working version of powershell
+
+(get-host).version.major
+
+2. how to display available cmdlets
+
+get-command -All
+
+3. how to read help doc for read-host cmdlet
+
+get-help read-host 
+
+4. how to list of all alias
+
+get-alias
+
+5. how to display list of running notepad process
+
+get-process notepad
+===========================================================================================================
+
+
+
+command   -parameter1     -parameter2    arg args
+
+-------    ----------     ------------parameter with arg
+ |		|
+cmdlet		switch parameter
+
+
+Get-Item -Path cert:\CurrentUser -CodeSigningCert
+--------  ----------------------  --------------
+=========================================================================================================== 
+
+
+powershell script file---->  file.ps1
+
+
+file: ab.ps1
+--------------
+...
+...
+...
+--------------
+
+powershell ab.ps1      (or)   C:\Users\User\ab.ps1  
+
+
+Executionpolicy    Get-Executionpolicy
+---------------
+
+1. Restricted
+2. Unrestricted
+3. Allsigned
+4. RemoteSigned
+5. bypass
+
+
+set-executionpolicy Unrestricted
+
+
+dont want to change executionpolicy & run a script
+
+powershell -executionpolicy bypass - file p1.ps1
+
+
+============================================================================================================
+
+
+Variable
+========
+
+data- value/ cmdlet result/ cmdlet/ command/ command result)
+
+syntax:-
+=======
+
+$variable = value
+
+$var=100   -----> $var| 100 | 0x1234
+
+$var= $(cmd)   (or)  $var=(cmd)   (or)  $var=cmd
+
+$var=$(cmdlet) (or) $var= (cmdlet )  (or)  $var=cmdlet
+
+
+
+ps2.ps1
+========
+$v=get-date -Uformat %D
+
+echo " Today Date is : $v"
+
+Write-host " Date: $v"
+
+Write-output " Date --> $v"
+
+
+Task
+-----
+script to
+create related variables 
+display login name, powershell version , current working directory date
+           |
+      whoami  (or) $env:username
+
+
+
+keyboard-------------> Script------------------> Monitor 
+         read-host                  echo
+                                 Write-host
+				Write-output
+
+
+$variable= read-host " prompt message"
+                |          |-----------------> STDOUT 
+              <STDIN>
+
+
+
+
+UDV- by default --> local scope
+
+To UDV global, update profile.ps1----> $PSHOME
+|
+save + exit
+
+open a new shell---> udv - global
+
+
+
+To get all vaiables ---> get-variable
+
+
+Predefined shell variable
+
+
+Typecasting
+-----------
+
+$variable=[data-type] variable
+
+$v=[int] "45"
+$v=[string] 4.5666
+
+############################################################################################################
+
+
+Arithmetic -----------> + - / * %
+
+(input type--> int/double)-----> int/double
+
+relational operator ---> Boolean(True/False)    $true  and $false--> special var
+
+ -eq -ne -lt -gt -le -ge     - numbers
+
+--------
+   |
+str
+
+by default -> case insensitive
+include case -> 'root' -ceq 'ROOT --> false
+'root' -eq 'ROOT' ---> True
+
+
+===================================================================================================
+
+Task
+-----
+write powershell script
+
+read N value - int type         N=  read-host "prompt"  100  --> string
+
+read M value - double type
+
+read X value - string type          
+
+display both the input value and its datatype  before typecasting
+100 String
+
+$n_int=[int]$N
+
+
+display both the variable and type
+
+100 int 
+
+`n   -> newline character
+`t   -> tab character
+
+
+=============================================================================================================
+
+conditional statement
+----------------------
+
+if statement
+------------
+1) if
+syntax:-
+
+if(condition){
+	true only
+}
+
+2) if.. else
+syntax:-
+
+if(condition){
+	true only
+}
+else{
+	false block
+}
+
+3) if .. elseif
+
+
+
+ echo "hello"| Where-Object {$_ -eq "hello"}
+
+(or)
+
+if("hello" -eq "hello"){
+	echo "hello"
+} 
+
+
+
+get-service  | where { $_.name -eq "Spooler" }
+
+------------------
+
+###################################################################################################
+Script
+-----
+PS C:\Users\theeba> echo "hello"| Where-Object {$_ -eq "hello"}
+hello
+PS C:\Users\theeba> echo "hello"| Where-Object {$_ -eq "hello"}
+hello
+PS C:\Users\theeba>
+PS C:\Users\theeba> $var="hello"
+PS C:\Users\theeba>
+PS C:\Users\theeba> if($var -eq "hello"){
+>> echo $var
+>> }
+hello
+
+PS C:\Users\theeba> echo $var| Where-Object {$_ -eq "hello"}
+hello
+PS C:\Users\theeba> echo $var| Where-Object {$_ -eq "helloWorld"}
+
+
+PS C:\Users\theeba> get-service | where { $_.name -eq "Spooler"}
+
+Status   Name               DisplayName
+------   ----               -----------
+Running  Spooler            Print Spooler
+
+
+PS C:\Users\theeba> get-service | where { $_.name -like "*event*"}
+
+Status   Name               DisplayName
+------   ----               -----------
+Running  EventLog           Windows Event Log
+Running  EventSystem        COM+ Event System
+Running  SystemEventsBroker System Events Broker
+
+
+PS C:\Users\theeba> get-service | where { $_.name -like "*time*"}
+
+Status   Name               DisplayName
+------   ----               -----------
+Stopped  autotimesvc        Cellular Time
+Running  TimeBrokerSvc      Time Broker
+Stopped  vmictimesync       Hyper-V Time Synchronization Service
+Stopped  W32Time            Windows Time
+=======================================================================================================
+
+Task
+-----
+How to obtain the files under 'c:\windows\system32' whose size exceeds 20MB
+
+====================================================================================================
+
+
+
+WIMObject    (or)   CIMINstance
+
+get-WINObject win32_computer
+
+
+PS C:\Users\theeba> $computersystem= get-ciminstance Win32_ComputerSystem
+PS C:\Users\theeba> $computersystem
+
+Name             PrimaryOwnerName   Domain             TotalPhysicalMemor Model              Manufacturer
+                                                       y
+----             ----------------   ------             ------------------ -----              ------------
+DESKTOP-0OHV0KD  theeba             WORKGROUP          16849256448        Inspiron 14 5430   Dell Inc.
+
+
+PS C:\Users\theeba> $computerMemory= $computersystem.TotalPhysicalMemory
+PS C:\Users\theeba> $computerMemory/ 1MB
+16068.703125
+PS C:\Users\theeba> $computerMemory/ 1KB
+16454352
+PS C:\Users\theeba> $computerMemory/ 1TB
+0.0153243094682693
+
+
+====================================================================================================
+
+
+if (condition){
+	
+	if(condition){
+		.....
+
+	}
+	else
+	{
+	....
+	}
+}
+
+else{
+	...
+}
+
+-------------------------------------
+
+task
+----
+
+write a powershell script
+
+1. read login name from user
+2. test login name  matches  with "root"  - condition1---> display invalid login name
+                  |
+	3. read a shell name
+	4. test shell name matches as psh   - condition 2   ---> display  invalid shell name
+                             |
+			   display login name and shellname
+			
+		
+======================================================================================================
+
+
+
+
+
+
+
+
+
+
+
+
+
+
