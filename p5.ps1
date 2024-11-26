@@ -1,15 +1,13 @@
-<#
-Task
------
-How to obtain the files under 'c:\windows\system32' whose size exceeds 20MB
-#>
+$p=5
 
-$largerFiles= $( $(Get-childitem "C:\windows\system32" )| where{ $_.length -gt 10MB})
+switch($p){
 
-$c = $largerFiles.count
+1 { echo "Pattern 1 matches" }
+2 { echo "Pattern 2 matches"}
+5 { echo "Pattern 5 matches"}
+6 { echo "TEST" }
 
-Write-host "There are totally $c of Files over 10MB"
+5 { echo "TESTING"}
 
-write-output " Files Over 10MB in c:\windows\system32 : " 
+}
 
-$largerFiles| select-object name,length,lastWriteTime | format-list  

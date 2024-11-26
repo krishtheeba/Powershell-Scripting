@@ -1,31 +1,31 @@
-# single line comment
-
-<#   Multiline comment
-
+<#
 Task
------
-script to
-create related variables 
-display login name, powershell version , current working directory date
-           |
-      whoami  (or) $env:username
+===
 
+read a hostname from <stdin>
+hostname is oracle
+		|
+		read a port number from <stdin>
+			|
+			matched in range( 501- 599)
+					|-----> Hostname
+					|-----> portnumber
 #>
 
 
-$name = $(whoami)
+$h=read-host "Enter the Hostname"
 
-$v= $(get-host).version # (or) $v=(get-host).Version
-
-$mycwd= $(get-location)
-
-$d = $(get-date -Uformat %m-%d-%Y)
-
-write-host "Login Name : $name"
-
-write-output " Working Powershell version : $v"
-
-write-host " Working Directory : $mycwd"
-
-echo " Today : $d"
- 
+if( $h -eq "oracle"){
+	[int]$po=read-host "Enter the port number"
+	
+	if ( $po -lt 600 -and $po -gt  500){
+		write-host " Hostname : $h"
+		write-host " Port Number : $po"
+	}
+	else{
+		write-host " Invalid port number"
+	}
+}
+else{
+	write-host " Invalid hostname"
+}

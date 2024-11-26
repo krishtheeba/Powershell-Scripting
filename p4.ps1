@@ -1,44 +1,55 @@
 <#
 
-Task
+task
 -----
-write powershell script
+write a powershell script
 
-read N value - int type
+read a shellname
 
-read M value - double type
+test  
+input shell is bash----------------> profile = "~/.bashrc"
 
-read X value - string type
+input shell is sh ----------------> profile="~/.shrc"
 
-display both the input value and its datatype
+input shell is psh ---------------> profile="$PSHOME/profile.ps1"
 
+|
+not matched ------> default profile ="C:/profile.ps1"
+		default shellname ="sbin/nologin"
 
-`n   -> newline character
-`t   -> tab character
+display Shell name and profile
 #>
 
+$var=read-host "Enter the shell Name"
 
-$n= read-host "Enter N value"
-$m= read-host "Enter M value"
-$x= read-host "Enter X value"
+if ($var -eq "bash"){
+	$p="~/.bashrc"
+}elseif($var -eq "sh"){
+	$p="~/.shrc"
+}elseif($var -eq "psh"){
+	$p="`$PSHOME/profile.ps1"
+}else{
+	Write-host " Sorry $var shell is not matched"
+	$p="C:/profile"
+	$var="/sbin/nologin"
+}
 
-echo "Current Value and Datatype"
-echo "n value  : $n`t Type :$($n.gettype().name)
-m value  : $m`t Type :$($m.gettype().name)
-x value  : $x`t Type :$($x.gettype().name)"               
-
-<#
-(cmdlet)   (or)   $(cmdlet)   (or)  cmdlet
-#>
+Write-host "Shell Name : $var `t Profile:$p"
 
 
-$n=[int]$n   # typecasting from string to int
-$m=[double]$m    # typecasting from string to double
 
-echo "Updated Value and Datatype"
-echo "n value  : $n`t Type :$($n.gettype().name)
-m value  : $m`t Type :$($m.gettype().name)
-x value  : $x`t Type :$($x.gettype().name)"               
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
