@@ -1,0 +1,819 @@
+
+Logical Operator
+---------------
+|- Logical and or not
+
+Logical and  && and===> in powershell  --->  -and
+
+Logical or || or ===>  in powershell ---> -or
+
+Logical not ! ===> in powershell  -not
+
+
+port --> 500 to 600  ---> port -le 600      port -ge 500  range of int
+                         ==============      ============
+                         condition1          condition2
+				    logical opr
+choices based action
+
+
+Logical -and
+=============
+
+condition1    condition2  result
+
+true		true		true
+false		true		false
+true		false		false
+false		false		false
+
+
+Logical -or
+===========
+
+condition1 condition2  result
+true		true	true
+false		true	true
+true		false	true
+false		false	false
+
+
+Task
+====
+
+Write powershell script
+
+read a login name from STDIN
+Test login name is root-----> not matched----> display "Invalid Login name
+        |
+read a shell name from stdin
+
+test whether shell name is either psh (or) sh (or) bash // any one matched
+								|
+						display login name and shell name
+
+
+===================================================================================
+
+Task
+===
+
+read a hostname from <stdin>
+hostname is oracle
+		|
+		read a port number from <stdin>
+			|
+			matched in range( 501- 599)
+					|-----> Hostname
+					|-----> portnumber
+==========================================================================================
+
+
+if...elseif...else
+===================
+syntax:-
+
+if (condition1){
+		true1..
+}elseif( condition2){
+		.. true2
+}
+.
+.
+else{
+	..false
+}
+
+ if ($port -lt 500){
+>> write-host "port less than 500"
+>> }elseif($port -eq 500){
+>> echo "port is equal to 500"
+>> }else{
+>> echo "Port is greater than 500"
+>> }
+
+================================================================================
+
+task
+-----
+write a powershell script
+
+read a shellname
+
+test  
+input shell is bash----------------> profile = "~/.bashrc"
+
+input shell is sh ----------------> profile="~/.shrc"
+
+input shell is psh ---------------> profile="$PSHOME/profile.ps1"
+
+|
+not matched ------> default profile ="C:/profile.ps1"
+		default shellname ="sbin/nologin"
+
+display Shell name and profile
+
+===========================================================================================================
+
+Select-string       ---> equivalent to grep
+
+
+syntax:-
+
+	select-string -pattern "textpattern" inputfile
+
+
+
+select-string -pattern "sales","hr" "*.csv"
+
+=======================================================================================================
+script
+------
+PS C:\users\theeba\DAY2> copy-item  ..\emp.csv .
+PS C:\users\theeba\DAY2> Get-ChildItem .
+
+
+    Directory: C:\users\theeba\DAY2
+
+
+Mode                 LastWriteTime         Length Name
+----                 -------------         ------ ----
+-a----        26-11-2024     11:25            726 cars.csv
+-a----        26-11-2024     11:16            235 emp.csv
+-a----        26-11-2024     11:28            691 p1.ps1
+-a----        26-11-2024     10:13            622 p2.ps1
+-a----        26-11-2024     10:19            511 p3.ps1
+-a----        26-11-2024     10:57            762 p4.ps1
+-a----        26-11-2024     11:16            791 r1.csv
+
+
+PS C:\users\theeba\DAY2> get-content emp.csv
+101,ram,sales,pune,1000
+102,leo,prod,bglore,2000
+103,anu,HR,hyd,3000
+104,paul,sales,bglore,3200
+423,zio,sales,pune,3420
+142,anu,prod,chennai,4300
+949,karthik,sales,bglore,3100
+848,tom,hr,chennai,3940
+931,vijay,prod,chennai,3411
+PS C:\users\theeba\DAY2>
+PS C:\users\theeba\DAY2> # find a pattern zio - display 2 lines above matched pattern
+PS C:\users\theeba\DAY2> select-string -pattern zio  .\emp.csv
+
+emp.csv:5:423,zio,sales,pune,3420
+
+
+PS C:\users\theeba\DAY2> select-string -pattern zio  .\emp.csv -context 2
+
+  emp.csv:3:103,anu,HR,hyd,3000
+  emp.csv:4:104,paul,sales,bglore,3200
+> emp.csv:5:423,zio,sales,pune,3420
+  emp.csv:6:142,anu,prod,chennai,4300
+  emp.csv:7:949,karthik,sales,bglore,3100
+
+
+PS C:\users\theeba\DAY2> select-string -pattern zio  .\emp.csv -context 1,2
+
+  emp.csv:4:104,paul,sales,bglore,3200
+> emp.csv:5:423,zio,sales,pune,3420
+  emp.csv:6:142,anu,prod,chennai,4300
+  emp.csv:7:949,karthik,sales,bglore,3100
+
+
+PS C:\users\theeba\DAY2> select-string -pattern zio  .\emp.csv -context 2,0
+
+  emp.csv:3:103,anu,HR,hyd,3000
+  emp.csv:4:104,paul,sales,bglore,3200
+> emp.csv:5:423,zio,sales,pune,3420
+
+
+
+PS C:\users\theeba\DAY2> select-string -pattern zio  .\emp.csv -Quiet
+True
+PS C:\users\theeba\DAY2> # how to check log files for error or not?
+PS C:\users\theeba\DAY2> select-string -pattern "error" -path  "..\*.log" -quiet
+False
+PS C:\users\theeba\DAY2> select-string -pattern "error" -path  "..\..\*.log" -quiet
+False
+PS C:\users\theeba\DAY2> select-string -pattern zio  .\emp.csv -NotMatch
+
+emp.csv:1:101,ram,sales,pune,1000
+emp.csv:2:102,leo,prod,bglore,2000
+emp.csv:3:103,anu,HR,hyd,3000
+emp.csv:4:104,paul,sales,bglore,3200
+emp.csv:6:142,anu,prod,chennai,4300
+emp.csv:7:949,karthik,sales,bglore,3100
+emp.csv:8:848,tom,hr,chennai,3940
+emp.csv:9:931,vijay,prod,chennai,3411
+
+
+PS C:\users\theeba\DAY2> #search pattern based on different filetypes
+PS C:\users\theeba\DAY2> select-string -pattern "error" -path "c:\*" -include "*.txt","*.log"
+PS C:\users\theeba\DAY2> select-string -pattern "zio" -path "*" -include "*.txt","*.csv"
+
+emp.csv:5:423,zio,sales,pune,3420
+
+
+PS C:\users\theeba\DAY2> select-string -pattern "zio" -path "*" -exclude "*.log"
+
+emp.csv:5:423,zio,sales,pune,3420
+
+
+PS C:\users\theeba\DAY2> select-string -pattern "zio" -path "*" -exclude "*.csv"
+PS C:\users\theeba\DAY2>
+PS C:\users\theeba\DAY2>
+PS C:\users\theeba\DAY2> select-string -pattern "v" -path "*" -include "*.csv"
+
+cars.csv:1:Car          Design          Vol     Weight          Emission
+cars.csv:7:VW           Up              1000    929             105
+cars.csv:15:Honda               Civic           1600    1252            94
+cars.csv:19:Skoda               Octavia         1600    1415            99
+cars.csv:20:Volvo               S60             2000    1415            99
+cars.csv:24:Volvo               V70             1600    1523            109
+emp.csv:9:931,vijay,prod,chennai,3411
+r1.csv:1:,Car           Design          Vol     Weight          Emission
+r1.csv:7:5,VW           Up              1000    929             105
+r1.csv:15:13,Honda              Civic           1600    1252            94
+r1.csv:19:17,Skoda              Octavia         1600    1415            99
+r1.csv:20:18,Volvo              S60             2000    1415            99
+r1.csv:24:22,Volvo              V70             1600    1523            109
+
+
+PS C:\users\theeba\DAY2> select-string -pattern "v" -path "*" -exclude "*.csv"
+
+p1.ps1:9:2. test login name  matches  with "root"  - condition1---> display invalid login name
+p1.ps1:12:      4. test shell name matches as psh   - condition 2   ---> display  invalid shell name
+p1.ps1:24:      $var=read-host "Enter the shell name"
+p1.ps1:25:      if($var -eq "psh"){
+p1.ps1:26:              write-host " Login Name : $name `t Login Shell name:$var"
+p1.ps1:29:              write-host " Invalid Shell Name"
+p2.ps1:8:Test login name is root-----> not matched----> display "Invalid Login name
+p2.ps1:20:      $var=read-host " Enter the shell name"
+p2.ps1:22:      if( $var -eq "psh" -or $var -eq "sh" -or $var -eq "bash"){
+p2.ps1:23:              write-host "Login name : $name `t Shell name :$var"
+p2.ps1:26:              write-host "Invalid shell name"
+p3.ps1:26:              write-host " Invalid port number"
+p3.ps1:30:      write-host " Invalid hostname"
+p4.ps1:23:$var=read-host "Enter the shell Name"
+p4.ps1:25:if ($var -eq "bash"){
+p4.ps1:27:}elseif($var -eq "sh"){
+p4.ps1:29:}elseif($var -eq "psh"){
+p4.ps1:32:      Write-host " Sorry $var shell is not matched"
+p4.ps1:34:      $var="/sbin/nologin"
+p4.ps1:37:Write-host "Shell Name : $var `t Profile:$p"
+
+
+PS C:\users\theeba\DAY2> get-childItem -path "..\day2"
+
+
+    Directory: C:\users\theeba\day2
+
+
+Mode                 LastWriteTime         Length Name
+----                 -------------         ------ ----
+d-----        26-11-2024     12:08                Sub
+-a----        26-11-2024     11:25            726 cars.csv
+-a----        26-11-2024     11:16            235 emp.csv
+-a----        26-11-2024     11:28            691 p1.ps1
+-a----        26-11-2024     10:13            622 p2.ps1
+-a----        26-11-2024     10:19            511 p3.ps1
+-a----        26-11-2024     10:57            762 p4.ps1
+-a----        26-11-2024     11:16            791 r1.csv
+
+
+PS C:\users\theeba\DAY2> Get-ChildItem -path "..\day2" -recurse
+
+
+    Directory: C:\users\theeba\day2
+
+
+Mode                 LastWriteTime         Length Name
+----                 -------------         ------ ----
+d-----        26-11-2024     12:08                Sub
+-a----        26-11-2024     11:25            726 cars.csv
+-a----        26-11-2024     11:16            235 emp.csv
+-a----        26-11-2024     11:28            691 p1.ps1
+-a----        26-11-2024     10:13            622 p2.ps1
+-a----        26-11-2024     10:19            511 p3.ps1
+-a----        26-11-2024     10:57            762 p4.ps1
+-a----        26-11-2024     11:16            791 r1.csv
+
+
+    Directory: C:\users\theeba\day2\Sub
+
+
+Mode                 LastWriteTime         Length Name
+----                 -------------         ------ ----
+-a----        26-11-2024     12:09             26 sample.txt
+
+
+PS C:\users\theeba\DAY2> Get-ChildItem -path "..\day2" -recurse| select-string -pattern "sales"
+
+emp.csv:1:101,ram,sales,pune,1000
+emp.csv:4:104,paul,sales,bglore,3200
+emp.csv:5:423,zio,sales,pune,3420
+emp.csv:7:949,karthik,sales,bglore,3100
+Sub\sample.txt:1:101,arun,sales,Pune,122321
+
+
+PS C:\users\theeba\DAY2> get-process|select-string "notepad"
+
+System.Diagnostics.Process (Notepad)
+
+
+PS C:\users\theeba\DAY2> get-process|Out-String -stream|select-string "notepad"
+
+   1174      50    79164     107708      31.63  21084   3 Notepad
+
+
+PS C:\users\theeba\DAY2> get-process|select-string "notepad"
+
+System.Diagnostics.Process (Notepad)
+
+
+PS C:\users\theeba\DAY2> get-process|Out-String -stream|select-string "note*"
+
+    200      12     2192       2312       1.25   1900   3 LocationNotificationWindows
+   1146      49    78948     107596      31.70  21084   3 Notepad
+
+
+
+=============================================================================================================
+get-childItem   ===> ls 
+
+get-alias ls====> get-childItem
+
+
+get-childitem path -recurse | select-string 
+
+PS C:\users\theeba\DAY2> $c=get-process | where{ $_ -like "*note*"}
+PS C:\users\theeba\DAY2> $c
+
+Handles  NPM(K)    PM(K)      WS(K)     CPU(s)     Id  SI ProcessName
+-------  ------    -----      -----     ------     --  -- -----------
+    211      13     2984      14160       0.06   2664   3 Notepad
+   1189      50    80548     116992      45.61  21084   3 Notepad
+    712      33    60688     101996       1.91  32084   3 Notepad
+
+
+PS C:\users\theeba\DAY2> $c|select-object -index 0, ($c.length-1)
+
+Handles  NPM(K)    PM(K)      WS(K)     CPU(s)     Id  SI ProcessName
+-------  ------    -----      -----     ------     --  -- -----------
+    211      13     2984      14160       0.06   2664   3 Notepad
+    712      33    60688     101996       1.91  32084   3 Notepad
+
+=============================================================================================================
+
+
+switch statement
+================
+
+switch(condition){
+<condition1>{ code block 1}
+<condition2>{ code block 2}
+....
+
+}
+
+==============================================================================================================
+
+
+Looping Statement
+=================
+
+|----->1. conditional based looping statement  ---> for , wile, do..while
+|-----> 2. Collection based -------------->  foreach    --Array,Hash, cmdlet result
+
+
+
+syntax:-
+
+for
+---
+
+for (Initialization; condition; Incre/decre){
+	code block
+}
+
+
+while
+----
+initialization
+while ( condition)
+{
+	code block
+	incre/ decre
+}
+
+do
+{
+	code block
+}while(condition)
+-------------------------------------------------------------------------------------
+
+foreach ( $var in <collection--Array| hash| cmdlet result> ){
+		....
+}
+
+break- exit from loop
+continue- skip current remaining code and continues its execution with next iteration
+
+---------------------------------------------------------------------------------------------
+
+-in
+-notin
+
+<input> -in <collection>
+
+-contains
+-notcontains
+
+
+<collection> -contains <input>
+
+-------------------------------------------------------------------------------------------
+Script
+======
+
+PS C:\users\theeba\DAY2> $i=0
+PS C:\users\theeba\DAY2> while( $i -lt 5){
+>> echo "DATA $i"
+>> $i++
+>> }
+DATA 0
+DATA 1
+DATA 2
+DATA 3
+DATA 4
+PS C:\users\theeba\DAY2> for($i=0;$i -lt 5;$i++){
+>> echo "DATA $i"
+>> }
+DATA 0
+DATA 1
+DATA 2
+DATA 3
+DATA 4
+PS C:\users\theeba\DAY2> for($i=0;$i -lt 5;$i++){
+>> if( $i -eq 2){break} else{ echo "DATA $i"
+>> }
+>> }
+>>
+DATA 0
+DATA 1
+PS C:\users\theeba\DAY2> for($i=0;$i -lt 5;$i++){
+>> if( $i -eq 2){continue} else{ echo "DATA $i"
+>> }
+>> }
+>>
+DATA 0
+DATA 1
+DATA 3
+DATA 4
+PS C:\users\theeba\DAY2> "p1.log" -in "p1.log","p2.log"
+True
+PS C:\users\theeba\DAY2> # <input> -in <collection>
+PS C:\users\theeba\DAY2>
+PS C:\users\theeba\DAY2> 1 -in 1,2,3
+True
+PS C:\users\theeba\DAY2> 1,2,3 -contains 1
+True
+PS C:\users\theeba\DAY2> foreach( $var in 1,2,3){
+>> echo "DATA- $var"
+>> }
+DATA- 1
+DATA- 2
+DATA- 3
+=========================================================================================================
+
+task
+-----
+
+write a power shell script 
+
+declare and initialize a $pin = 1234
+
+read a input pin from <STDIN>
+
+compare input pin with $pin 
+	|---------------------->pin matches   ex:  pin matched at 2 attempt
+                                 |
+				exit from loop
+
+max input pin is 3----> pin is blocked
+
+Enter a pin : 1234
+Success- pin matched at 1 attempt
+--------------------
+Enter a pin: 3333
+Enter a pin:1234
+Success - pin matched at 2 Attempt
+------------------------------
+Enter a pin:2323
+Enter a pin:543534
+Enter a pin:332
+
+pin is blocked
+
+==============================================================================================================
+
+cmdlet
+--------
+get-variable
+
+set-variable---> (or)   $var=value
+
+clear-variable ---> clears the value
+
+
+			var| 40 | 0x123434
+clear-variable  -->      var|   | 0x123434
+
+remove-variable -->     delete
+
+if(...)
+{
+	..$var..
+
+
+	remove-variable -name var
+}
+
+
+function function_name(){
+	...
+
+	...
+	
+	remove-variable -name "variable"
+}
+
+
+
+=============================================================================================================
+
+
+File handling
+===============
+
+keyboard------read-host  ----------  script ------------write-host write-output echo-------Monitor
+<STDIN>												<STDOUT>
+					|
+					|
+					|
+					File(Storage)
+
+
+new-Item folder/ file -------   -ItemType file
+	  |
+	-Itemtype directory
+
+get-content --> read file content
+
+set-content ---> add/write data to file
+
+clear-content ---> erase of a file
+
+add-content ---> append operation
+
+
+> create /write    
+>> create/ append
+    |
+ if file not exist and appends if file exist
+
+
+
+cmdlet| convertTo-html text.html
+
+
+
+copy-item "oldname" "newname"   ---> okay
+
+copy-item "oldname"  "newname" ---> if destination already exist with same filename, copy fails
+
+copy-item "oldname" "newname" -force
+
+remove-item "filepath"   --> file erased
+
+remove-item "directory path" -recurse
+
+
+
+1. read a data from <FILE> ---> script----> write to data to Monitor <STDOUT>
+  
+   get-content                               echo write-host write-output
+
+
+2. read data from <stdin> ----> script-------> write to data file 
+	read-host					set-content   add-content  > >>
+
+3. read data from <FILE1> ----> script-----> write data to another file <not IO > 
+
+
+
+
+1. read a data from <FILE> ---> script----> write to data to Monitor <STDOUT>
+
+$var=$(get-content filename)
+
+echo $var
+
+(or)
+
+get-content filename  (or) cat filename
+
+
+2. read data from <stdin> ----> script-------> write to data file 
+
+$var=read-host "Enter a data"
+
+set-content resultfilename $var
+
+for( $i=0 ; $i -lt 5 ; $i++)
+{
+	$var=read-host "Enter the text"
+	
+	#set-content './resultfile.txt' $var   # overwrites the existing content
+	add-content './resultfile.txt' $var   # append 
+}
+
+is same as
+
+for( $i=0 ; $i -lt 5 ; $i++)
+{
+	$var=read-host "Enter the text"
+	
+	# echo $var > resultfile.txt  ---> set-content
+	echo $var >> resultfile.txt   ----> add-content
+	
+}
+
+3. read data from <FILE1> ----> script-----> write data to another file <not IO > 
+
+get-content					set-content / add-content
+
+
+
+test-path  -> file exists or not
+|
+true/false
+
+Test-path -path "file-path "----> Boolean value
+
+$filename=read-host "enter file path"
+if( test-path -path $filename){
+	echo "File exist"
+}
+else{
+	echo "File doesnot exist"   # set-content
+					#new-item
+}
+
+
+
+
+ get-childitem |where-object { $_.length -gt 100}
+
+is same as
+
+foreach($v in get-childitem){
+	if( $v.length -gt 100 ){
+	echo $v >> r1.log
+	}
+}
+
+
+============================================================================================
+script
+=======
+PS C:\users\theeba\DAY2> test-path -path "*.log"
+False
+PS C:\users\theeba\DAY2> resolve-path .
+
+Path
+----
+C:\users\theeba\DAY2
+
+
+PS C:\users\theeba\DAY2> resolve-path C:\win*
+
+Path
+----
+C:\Windows
+
+
+PS C:\users\theeba\DAY2> resolve-path C:\win*, ., .., D:\p
+
+Path
+----
+C:\Windows
+C:\users\theeba\DAY2
+C:\users\theeba
+
+
+PS C:\users\theeba\DAY2> resolve-path C:\win*, ., .., C:\p*
+
+Path
+----
+C:\Windows
+C:\users\theeba\DAY2
+C:\users\theeba
+C:\PerfLogs
+C:\Program Files
+C:\Program Files (x86)
+C:\ProgramData
+
+PS C:\users\theeba\DAY2> get-childitem |where-object { $_.length -gt 100}
+
+
+    Directory: C:\users\theeba\DAY2
+
+
+Mode                 LastWriteTime         Length Name
+----                 -------------         ------ ----
+-a----        26-11-2024     11:25            726 cars.csv
+-a----        26-11-2024     16:44            476 D.txt
+
+PS C:\users\theeba\DAY2> get-childitem |where-object { $_.length -gt 100} > r4.log
+PS C:\users\theeba\DAY2> get-content r4.log
+
+
+    Directory: C:\users\theeba\DAY2
+
+
+Mode                 LastWriteTime         Length Name
+----                 -------------         ------ ----
+-a----        26-11-2024     11:25            726 cars.csv
+-a----        26-11-2024     16:44            476 D.txt
+
+===========================================================================================================
+
+
+Array
+=====
+
+$a=10
+
+$v="data"
+|-------------------------scalar
+
+Array---> collection of values
+
+$p= 10,20,30    ---> array
+
+$v=get-process    -----> array
+
+---> index--> int
+----> ordered element - different type - referred by index
+
+
+syntax:-
+
+$array_variable =@( list of elements)
+
+$port=@(80,120,500,600,"example.com",33.222)   is same as $port=(80,120,500,600,"example.com",33.222) 
+
+
+
+$port= 50,40,50    ---> array
+
+
+# empty array
+
+$a="" --> not empty array
+
+$a=@()   # empty array
+
+ $v3= @(1,2,3,"data",33.444)
+        | | |   |     |
+        0 1 2    3    4  
+      -5 -4 -3   -2   -1		  
+
+$v[0]----> 1
+$v[-5]---> 1
+
+
+$arrayname[index]= updated_value   # mutable
+
+$array_name + "newdata"
+
+
+====================================================================================================
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
