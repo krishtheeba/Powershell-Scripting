@@ -1,57 +1,36 @@
 <#
+ step 1 :create an empty array: $hosts=@()
 
-task
------
-write a powershell script
+ step 2 :using while loop - 5times
+           read a hostname from <STDIN>
+           add input hostname into existing array
 
-read a shellname
+ step 3 : display total no. of array elements
 
-test  
-input shell is bash----------------> profile = "~/.bashrc"
+ step 4 : using foreach loop - display list of hostname
 
-input shell is sh ----------------> profile="~/.shrc"
+ step 5 : modify 1st index hostname     host01 <--> 127.0.0.1
+ Step 6 : step 4 (updated hostname details)
 
-input shell is psh ---------------> profile="$PSHOME/profile.ps1"
 
-|
-not matched ------> default profile ="C:/profile.ps1"
-		default shellname ="sbin/nologin"
-
-display Shell name and profile
 #>
 
-$var=read-host "Enter the shell Name"
-
-if ($var -eq "bash"){
-	$p="~/.bashrc"
-}elseif($var -eq "sh"){
-	$p="~/.shrc"
-}elseif($var -eq "psh"){
-	$p="`$PSHOME/profile.ps1"
-}else{
-	Write-host " Sorry $var shell is not matched"
-	$p="C:/profile"
-	$var="/sbin/nologin"
+$my_hosts=@() # empty array
+echo "Size:$($my_hosts.count)"
+$c=0
+while($c -lt 5){
+    $v=Read-Host "Enter a hostname" # reading data from <STDIN>
+    $my_hosts+=$v # $my_hosts=$my_hosts+$v append operation
+    $c++
 }
-
-Write-host "Shell Name : $var `t Profile:$p"
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+echo "List of host name details:-
+--------------------------------------"
+foreach($v in $my_hosts){
+    echo $v
+}
+$my_hosts[1]="127.0.0.1" # updating existing array elements
+echo "`nUpdated hostname details:-"
+foreach($v in $my_hosts){
+    echo $v
+}
 

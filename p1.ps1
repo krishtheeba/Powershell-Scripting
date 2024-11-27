@@ -1,37 +1,41 @@
 <#
 
-task
-----
-
+Task
+=====
 write a powershell script
 
-1. read login name from user
-2. test login name  matches  with "root"  - condition1---> display invalid login name
-                  |
-	3. read a shell name
-	4. test shell name matches as psh   - condition 2   ---> display  invalid shell name
-                             |
-			   display login name and shellname
-			
+given Array:
+@("ram,sales,1000", "jack,prod,2000", "sam,hr,3000", "Vishnu,Prod,3000")
+
+
+Display Emp name and Working department to <STDOUT>
+
+Calculate the sum of cost of all emp's cost
+
+Display the total cost to <STDOUT>
+
+
+Note:- use split(",") 
 
 #>
 
 
-$name=read-host "Enter the Login name"
+$emp=@("ram,sales,1000", "jack,prod,2000", "sam,hr,3000", "Vishnu,Prod,3000")
 
-if( $name -ceq "root"){
+$total=0
+foreach( $var in $emp){
+	
+	$n,$d,$c= $var.split(",")
+	echo "Emp Name : $n `t Working Dept : $d"
+	$total=$total + [int] $c
+}
 
-	$var=read-host "Enter the shell name"
-	if($var -eq "psh"){
-		write-host " Login Name : $name `t Login Shell name:$var"
-	}
-	else{
-		write-host " Invalid Shell Name"
-	}
-}
-else{
-	Write-host " Sorry $name is not Matched"
-}
+Write-Host " ==================================================================="
+Write-Host "`t Total Emp's Cost : $total`t"
+Write-host "==================================================================="
+
 
 
 	
+
+

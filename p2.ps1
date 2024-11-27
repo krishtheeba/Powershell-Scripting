@@ -1,31 +1,22 @@
 <#
-Task
-====
+Q3. Write a powershell script - display list of log files under your current working directory
+     in below format.
+	
+	1.p1.log
+	2.p2.log
+	...
+	10.temp.log
 
-Write powershell script
+	Total no.of log files:10
 
-read a login name from STDIN
-Test login name is root-----> not matched----> display "Invalid Login name
-        |
-read a shell name from stdin
 
-test whether shell name is either psh (or) sh (or) bash // any one matched
-								|
 #>
 
 
-$name = read-host "enter the login name"
+$c=0
+foreach($v in (Get-ChildItem "C:\windows\*.log")){
+  $c++
+  Write-Output "$c $v"
+}
 
-if( $name -eq "root"){
-	$var=read-host " Enter the shell name"
-	
-	if( $var -eq "psh" -or $var -eq "sh" -or $var -eq "bash"){
-		write-host "Login name : $name `t Shell name :$var"
-	}
-	else{
-		write-host "Invalid shell name"
-	}
-}
-else{
-	write-host " Sorry $name is not matched"
-}
+echo "----`nTotal no.of log files:$c`n----"
