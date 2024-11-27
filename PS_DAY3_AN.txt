@@ -1,0 +1,703 @@
+Task
+====
+Q1. Using Where-Object Commandlet modify the below conditional statement
+          ============
+ foreach($v in Get-ChildItem){
+ if($v.length -gt 100 -and $v.length -lt 200){
+     echo $v
+  }
+ }
+
+ 
+
+Q2. Write a powershell script - list out list of chrome process which is consuming CPU utilization
+    15 and above.
+
+Q3. Write a powershell script - display list of log files under your current working directory
+     in below format.
+	
+	1.p1.log
+	2.p2.log
+	...
+	10.temp.log
+
+	Total no.of log files:10
+
+Q4. Write a powershell script - display menu-driven program 
+	
+    ###############  SYSTEM INFO ####################################
+    #								    #
+    #   1.  List top 10 process - (sort process by memory usage)    #
+    #   2.  List running service				    #
+    #   3.  Total no.of alias 					    #
+    #   4.  Display process details				    #
+    #   5.  Display login name and login path			    #
+    #								    #
+    #################################################################
+    
+    Enter your Choice:__
+
+
+ Q5. 
+ step 1 :create an empty array: $hosts=@()
+
+ step 2 :using while loop - 5times
+           read a hostname from <STDIN>
+           add input hostname into existing array
+
+ step 3 : display total no. of array elements
+
+ step 4 : using foreach loop - display list of hostname
+
+ step 5 : modify 1st index hostname     host01 <--> 127.0.0.1
+ Step 6 : step 4 (updated hostname details)
+
+
+ Q6. 
+ step 1 :create an empty array: $hosts=@{}
+
+ step 2 :using while loop - 5times
+           read a hostname from <STDIN>
+	    read a IPAddress from <Stdin>
+           add input hostname into existing hash (  hostname as key, IpAddress as Value)
+
+ step 3 : display total no. of elements
+
+ step 4 : using foreach loop - display list of hostname (keys)
+
+ step 5 : modify 'host01'  value  <--> 127.0.0.1
+ Step 6 : step 4 (updated hostname details)
+
+==============================================================================================================
+
+
+Regx
+====
+|---  search ----->    -match operator   ====>  Boolean (True/false)
+
+
+|----- substitute ---->  -replace operator ===> Boolean (True/false)
+
+
+$eid= read-host "Enter the Id"
+---
+|---- 123
+|---- abc
+|---- #$^&&
+
+# expected format --->  <Uppercase><digit><digit><digit>
+-------------------------------------------------------------------------------------
+
+BRE - single      ;        ERE -  multiple
+
+
+BRE
+----
+
+^
+$
+^pattern$
+^$ - empty line
+
+
+.*  
+[]
+^[]
+[^]
+
+syntax:-
+
+<input>  -match <pattern>
+
+
+"power shell" -match "^power.shell$"   --> True
+
+"power$shell"  -match "^power.shell$" ---> True
+
+"power,shell"  -match "^power.shell$" ---> True
+
+"power     shell"  -match "^power.shell$" ---> False
+
+
+
+* - zero or more
+
+.* - list of all
+
+"power      shell"  -match "^power.*shell$" ---> True
+
+
+"power 4463%%^&&*&*&&* shell"  -match "^power.*shell$" ---> True
+
+
+[] --> single character
+
+[AB]456
+-------
+
+A456
+B456
+
+
+[AB][TF]454
+
+AT454
+AF454
+BT454
+BF454
+
+
+
+[A-Z]
+[a-z]
+[A-Za-z]
+[A-Za-z0-9]  [:alnum:]   \w
+
+[0-9]  [:digit:]  \d
+
+^[0-9][0-9]$  
+
+select-string "[At5]" input
+               -----
+                 |---------- 'A' or 't' or '5'
+
+Aix
+At
+5t
+temp
+5tmp
+
+=============================================================================================================
+script
+-------
+
+PS C:\users\theeba\day3> "working kernel is aix" -match  "abc"
+False
+PS C:\users\theeba\day3> "working kernel is aix" -match  "[abc]"
+True
+PS C:\users\theeba\day3> "working kernel is aix" -match  "[abc][e5]"
+False
+PS C:\users\theeba\day3> "working kernel is aix" -match  "[abc][ei]"
+True
+PS C:\users\theeba\day3> select-string "[At5]" "Aix"
+select-string : Cannot find path 'C:\users\theeba\day3\Aix' because it does not exist.
+At line:1 char:1
++ select-string "[At5]" "Aix"
++ ~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : ObjectNotFound: (C:\users\theeba\day3\Aix:String) [Select-String], ItemNotFo
+   undException
+    + FullyQualifiedErrorId : PathNotFound,Microsoft.PowerShell.Commands.SelectStringCommand
+
+PS C:\users\theeba\day3> echo "Aix"| select-string  "[At5]"
+
+Aix
+
+
+PS C:\users\theeba\day3> echo "tix"| select-string  "[At5]"
+
+tix
+
+
+PS C:\users\theeba\day3> echo "5ix"| select-string  "[At5]"
+
+5ix
+
+
+PS C:\users\theeba\day3> echo "log"| select-string  "[At5]"
+PS C:\users\theeba\day3> "ram,prod" -match "sales"
+False
+PS C:\users\theeba\day3> "ram,sales" -match "sales"
+True
+PS C:\users\theeba\day3> if ( "ram,prod" -match "prod"){
+>> echo "Matched"}
+Matched
+PS C:\users\theeba\day3> if ( "ram,prod" -match "prod"){
+>> echo "Matched"}else{
+>> echo "Not Matched" }
+Matched
+PS C:\users\theeba\day3> "sales,rrr,ram,prod" -match "^sales"
+True
+PS C:\users\theeba\day3> "list of all sales emp details" -match "sales"
+True
+PS C:\users\theeba\day3> "list of all sales emp details" -match "^sales"
+False
+PS C:\users\theeba\day3> "list of all emp details of dept sales" -match "sales$"
+True
+PS C:\users\theeba\day3> "jsgdsjdgs sales:" -match "^$"
+False
+PS C:\users\theeba\day3> "jsgdsjdgs sales:" -match "^j"
+True
+PS C:\users\theeba\day3> get-content ..\day2\emp.csv
+101,ram,sales,pune,1000
+102,leo,prod,bglore,2000
+103,anu,HR,hyd,3000
+104,paul,sales,bglore,3200
+423,zio,sales,pune,3420
+142,anu,prod,chennai,4300
+949,karthik,sales,bglore,3100
+848,tom,hr,chennai,3940
+931,vijay,prod,chennai,3411
+PS C:\users\theeba\day3> get-content ..\day2\emp.csv| select-string "sales"
+
+101,ram,sales,pune,1000
+104,paul,sales,bglore,3200
+423,zio,sales,pune,3420
+949,karthik,sales,bglore,3100
+
+
+PS C:\users\theeba\day3> select-string "sales" ..\day2\emp.csv
+
+C:\users\theeba\day2\emp.csv:1:101,ram,sales,pune,1000
+C:\users\theeba\day2\emp.csv:4:104,paul,sales,bglore,3200
+C:\users\theeba\day2\emp.csv:5:423,zio,sales,pune,3420
+C:\users\theeba\day2\emp.csv:7:949,karthik,sales,bglore,3100
+
+
+PS C:\users\theeba\day3> notepad IP.txt
+PS C:\users\theeba\day3> select-string "sales" .\Ip.txt
+
+Ip.txt:1:ram,prod,sales
+Ip.txt:2:kumar,sales
+Ip.txt:3:sales,Banu,QA
+Ip.txt:4:sales,
+Ip.txt:5:sales
+Ip.txt:6:Vishnu,sales
+Ip.txt:7:sales
+Ip.txt:8:end of sales details
+
+
+PS C:\users\theeba\day3> select-string "^sales" .\Ip.txt
+
+Ip.txt:3:sales,Banu,QA
+Ip.txt:4:sales,
+Ip.txt:5:sales
+Ip.txt:7:sales
+
+
+PS C:\users\theeba\day3> select-string "sales$" .\Ip.txt
+
+Ip.txt:1:ram,prod,sales
+Ip.txt:2:kumar,sales
+Ip.txt:5:sales
+Ip.txt:6:Vishnu,sales
+Ip.txt:7:sales
+
+
+PS C:\users\theeba\day3> select-string "^sales$" .\Ip.txt
+
+Ip.txt:5:sales
+Ip.txt:7:sales
+
+
+PS C:\users\theeba\day3> select-string "^$" .\Ip.txt
+PS C:\users\theeba\day3>
+
+
+=========================================================================================================
+
+$name= read-host "Enter a name"
+
+if ( $name -match "^[A-Z][a-z]+$") {
+	echo "valid format"
+}
+else{
+	echo "sorry Invalid Format"
+}
+	
+
+eid --> [A-Z][0-9][0-9][0-9]
+
+
+
+-replace operator
+------------------
+
+input -replace <old>,<new>
+
+=========================================================================================================
+
+Script
+======
+PS C:\users\theeba\day3> $v="SAMPLE Test Report ON 12th OCT 2019"
+PS C:\users\theeba\day3>
+PS C:\users\theeba\day3> $v -match "^[A-Z]"
+True
+PS C:\users\theeba\day3> $v -match "^[A-Z][a-z]"
+True
+PS C:\users\theeba\day3> $v -cmatch "^[A-Z][a-z]"
+False
+PS C:\users\theeba\day3> $v -cmatch "^[A-Z][A-Z].*Test.*[0-9][0-9]"
+True
+PS C:\users\theeba\day3> $v -cmatch "^[A-Z][A-Z].*Test.*[0-9][0-9]$"
+True
+PS C:\users\theeba\day3> $v="SAMPLE Test Report ON 12th OCT 2019 "
+PS C:\users\theeba\day3> $v -cmatch "^[A-Z][A-Z].*Test.*[0-9][0-9]$"
+False
+PS C:\users\theeba\day3> $v -cmatch "^[:alnum:]"
+False
+PS C:\users\theeba\day3> "A $%^^76 " -cmatch "^[:alnum:]"
+False
+PS C:\users\theeba\day3> "A $%^^76 " -match "^[:alnum:]"
+True
+PS C:\users\theeba\day3> "A $%^^76 " -match "^\w"
+True
+PS C:\users\theeba\day3> #    "[A-Z][0-9][0-9][0-9]"  -match $eid
+PS C:\users\theeba\day3>
+PS C:\users\theeba\day3> Get-service| where-object {$_.status -eq "Running"} > F.log
+PS C:\users\theeba\day3>
+PS C:\users\theeba\day3> get-content F.log
+
+PS C:\users\theeba\day3> foreach ( $v in get-content F.log){
+>> if ($v -match "Wsearch"){
+>> echo $v
+>> }
+>> }
+Running  WSearch            Windows Search
+PS C:\users\theeba\day3> foreach ( $v in get-content F.log){
+>> if ($v -match "^Running.*win.*[er]$"){
+>> echo $v
+>> }
+>> }
+Running  QWAVE              Quality Windows Audio Video Experience
+PS C:\users\theeba\day3> foreach ( $v in get-content F.log){
+>> if ($v -match "python|update|Audio"){
+>> echo $v
+>> }
+>> }
+Running  AudioEndpointBu... Windows Audio Endpoint Builder
+Running  Audiosrv           Windows Audio
+Running  IntelAudioService  Intel(R) Audio Service
+Running  QWAVE              Quality Windows Audio Video Experience
+Running  RtkAudioUnivers... Realtek Audio Universal Service
+Running  UsoSvc             Update Orchestrator Service
+Running  WavesAudioService  Waves Audio Universal Services
+Running  WavesSysSvc        Waves Audio Services
+PS C:\users\theeba\day3>
+PS C:\users\theeba\day3>
+PS C:\users\theeba\day3> echo " for while loop" | select-string "(for).(while)"
+
+ for while loop
+
+
+PS C:\users\theeba\day3> echo " for     while loop" | select-string "(for).*(while)"
+
+ for     while loop
+
+
+PS C:\users\theeba\day3>
+PS C:\users\theeba\day3> "Python program" -replace "program","script"
+Python script
+PS C:\users\theeba\day3> $var= "ram,prod,bglore,43534"
+PS C:\users\theeba\day3>
+PS C:\users\theeba\day3> $var -replace "prod", "Sales"
+ram,Sales,bglore,43534
+PS C:\users\theeba\day3> foreach( $var in (get-content ..\day2\emp.csv)){
+>> $var -replace "sales", "production"
+>> }
+101,ram,production,pune,1000
+102,leo,prod,bglore,2000
+103,anu,HR,hyd,3000
+104,paul,production,bglore,3200
+423,zio,production,pune,3420
+142,anu,prod,chennai,4300
+949,karthik,production,bglore,3100
+848,tom,hr,chennai,3940
+931,vijay,prod,chennai,3411
+PS C:\users\theeba\day3>
+PS C:\users\theeba\day3>
+PS C:\users\theeba\day3> foreach($var in get-process){
+>> if($var -match "t.$"){
+>> echo $var
+>> }
+>>
+>> }
+
+
+
+PS C:\users\theeba\day3> foreach($var in get-process){
+>> if($var -match "t.$"){
+>>  $var -replace "svchost","SERVICE"
+>> }
+>>
+>> }
+System.Diagnostics.Process (AggregatorHost)
+System.Diagnostics.Process (ApplicationFrameHost)
+System.Diagnostics.Process (conhost)
+System.Diagnostics.Process (SupportAssistAgent)
+System.Diagnostics.Process (SERVICE)
+System.Diagnostics.Process (SERVICE)
+System.Diagnostics.Process (SERVICE)
+System.Diagnostics.Process (SERVICE)
+System.Diagnostics.Process (SERVICE)
+
+
+PS C:\users\theeba\day3>
+PS C:\users\theeba\day3> $mdrive=@("p1.log","p2.log","temp.c","report.log")
+PS C:\users\theeba\day3>
+PS C:\users\theeba\day3> foreach($var in $mdrive){
+>> $var -replace ".log",".txt"
+>> }
+p1.txt
+p2.txt
+temp.c
+report.txt
+PS C:\users\theeba\day3>
+
+==============================================================================================================Functions
+========
+
+ --> function definition
+ ---> function call
+
+
+syntax:-
+
+function functionName {
+		code block
+}
+
+
+# functionName         # simple function call
+
+
+=====================================================================================================
+script
+======
+
+PS C:\users\theeba\day3> # simple function call
+PS C:\users\theeba\day3>
+PS C:\users\theeba\day3> function view{
+>> Write -host "This is a View Block"
+>> write-host "List of Process"
+>> write-host "Exit from view block"
+>> }
+>>
+PS C:\users\theeba\day3>
+PS C:\users\theeba\day3> view
+-host
+This is a View Block
+List of Process
+Exit from view block
+PS C:\users\theeba\day3>
+PS C:\users\theeba\day3>
+PS C:\users\theeba\day3> function f1($a1,$a2){
+>> $a1
+>> $a2
+>> }
+PS C:\users\theeba\day3>
+PS C:\users\theeba\day3> f1 10 20
+10
+20
+PS C:\users\theeba\day3> f1 "data" 2.3.3
+data
+2.3.3
+PS C:\users\theeba\day3> f1 "data" 2.3.3 60 70
+data
+2.3.3
+PS C:\users\theeba\day3> function f2{
+>>
+>> echo $args
+>> $args.gettype()
+>> }
+PS C:\users\theeba\day3>
+PS C:\users\theeba\day3> f2 10 20 30 "data" 1.2
+10
+20
+30
+data
+1.2
+
+IsPublic IsSerial Name                                     BaseType
+-------- -------- ----                                     --------
+True     True     Object[]                                 System.Array
+
+
+PS C:\users\theeba\day3> function f1($a1,$a2){
+>> echo $a1.gettype().name
+>> echo $a2.gettype().name
+>> }
+PS C:\users\theeba\day3>
+PS C:\users\theeba\day3> f1 10 20
+Int32
+Int32
+PS C:\users\theeba\day3> f1 10 20 30 40
+Int32
+Int32
+PS C:\users\theeba\day3> f1 10 @()
+Int32
+Object[]
+PS C:\users\theeba\day3> function f5{
+>>
+>> param($a1)
+>> write-host "from f5--> $a1 "
+>> }
+PS C:\users\theeba\day3>
+PS C:\users\theeba\day3> f5 10
+from f5--> 10
+PS C:\users\theeba\day3> f5 10.66
+from f5--> 10.66
+PS C:\users\theeba\day3> f5 @(1,2,3,4)
+from f5--> 1 2 3 4
+PS C:\users\theeba\day3> f5 @{"k1"="v1"; "k2"="v2"}
+from f5--> System.Collections.Hashtable
+PS C:\users\theeba\day3>
+PS C:\users\theeba\day3>
+PS C:\users\theeba\day3> function f5{
+>>
+>> param([string]$a1,)
+>> write-host "from f5--> $a1 "
+>> }
+At line:3 char:19
++ param([string]$a1,)
++                   ~
+Missing expression after ','.
+    + CategoryInfo          : ParserError: (:) [], ParentContainsErrorRecordException
+    + FullyQualifiedErrorId : MissingExpressionAfterToken
+
+PS C:\users\theeba\day3> function f5{
+>>
+>> param([string]$a1, [int] $a2)
+>> write-host "a1 value : $a1"
+>> }
+PS C:\users\theeba\day3> function f5{
+>>
+>> param([string]$a1, [int] $a2)
+>> write-host "a1 value : $a1"
+>> write-host "a2 value : $a2"
+>> }
+PS C:\users\theeba\day3>
+PS C:\users\theeba\day3> f5 100 200
+a1 value : 100
+a2 value : 200
+PS C:\users\theeba\day3> function f5{
+>>
+>> param([string]$a1, [int] $a2)
+>> write-host "a1 value : $a1 `t $a2.gettype()"
+>> write-host "a2 value : $a2 `t $a2.gettype()"
+>> }
+PS C:\users\theeba\day3>
+PS C:\users\theeba\day3> f5 100 200
+a1 value : 100   200.gettype()
+a2 value : 200   200.gettype()
+PS C:\users\theeba\day3> function f5{
+>>
+>> param([string]$a1, [int] $a2)
+>> write-host "a1 value : $a1 `t ($a1.gettype())"
+>> write-host "a2 value : $a2 `t ($a2.gettype())"
+>> }
+PS C:\users\theeba\day3>
+PS C:\users\theeba\day3> f5 100 200
+a1 value : 100   (100.gettype())
+a2 value : 200   (200.gettype())
+PS C:\users\theeba\day3> function f5{
+>>
+>> param([string]$a1, [int] $a2)
+>> write-host "a1 value : $a1 `t $($a1.gettype())"
+>> write-host "a2 value : $a2 `t $($a2.gettype())"
+>> }
+PS C:\users\theeba\day3>
+PS C:\users\theeba\day3> f5 100 200
+a1 value : 100   string
+a2 value : 200   int
+
+=======================================================================================================
+
+Exception handling
+------------------
+
+try{
+...
+}
+catch{
+   write-host $_.ExceptionMessage
+}
+
+
+PS C:\users\theeba\day3> # call operator --->  &
+PS C:\users\theeba\day3>
+PS C:\users\theeba\day3> try{
+>> get-content "C:\nofile.txt"
+>> }
+>> catch{
+>> Write-host "Error Encountered: "$_.Exception.Message
+>> }
+get-content : Cannot find path 'C:\nofile.txt' because it does not exist.
+At line:2 char:1
++ get-content "C:\nofile.txt"
++ ~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : ObjectNotFound: (C:\nofile.txt:String) [Get-Content], ItemNotFoundException
+    + FullyQualifiedErrorId : PathNotFound,Microsoft.PowerShell.Commands.GetContentCommand
+
+PS C:\users\theeba\day3>
+PS C:\users\theeba\day3> try{
+>> get-content "C:\nofile.txt" -ErrorAction stop
+>> }
+>> catch{
+>> Write-host "Error Encountered: "$_.Exception.Message
+>> }
+Error Encountered:  Cannot find path 'C:\nofile.txt' because it does not exist.
+PS C:\users\theeba\day3> try{
+>> get-content "C:\nofile.txt" -ErrorAction stop
+>> }
+>> catch{
+>>  Add-content ".\var.log" $( $(get-date)+  $_.Exception.Message)
+>> }
+Cannot convert argument "1", with value: "Cannot find path 'C:\nofile.txt' because it does not exist.",
+for "op_Addition" to type "System.TimeSpan": "Cannot convert value "Cannot find path 'C:\nofile.txt'
+because it does not exist." to type "System.TimeSpan". Error: "String was not recognized as a valid
+TimeSpan.""
+At line:5 char:31
++  Add-content ".\var.log" $( $(get-date)+  $_.Exception.Message)
++                               ~~~~~~~~
+    + CategoryInfo          : NotSpecified: (:) [], MethodException
+    + FullyQualifiedErrorId : MethodArgumentConversionInvalidCastArgument
+
+PS C:\users\theeba\day3> try{
+>> get-content "C:\nofile.txt" -ErrorAction stop
+>> }
+>> catch{
+>>  Add-content ".\var.log" $( (get-date)+ $_.Exception.Message)
+>> }
+Cannot convert argument "1", with value: "Cannot find path 'C:\nofile.txt' because it does not exist.",
+for "op_Addition" to type "System.TimeSpan": "Cannot convert value "Cannot find path 'C:\nofile.txt'
+because it does not exist." to type "System.TimeSpan". Error: "String was not recognized as a valid
+TimeSpan.""
+At line:5 char:29
++  Add-content ".\var.log" $( (get-date)+ $_.Exception.Message)
++                             ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (:) [], MethodException
+    + FullyQualifiedErrorId : MethodArgumentConversionInvalidCastArgument
+
+PS C:\users\theeba\day3> try{
+>> get-content "C:\nofile.txt" -ErrorAction stop
+>> }
+>> catch{
+>>  Add-content ".\var.log" $("["+ (get-date)+"]" + $_.Exception.Message)
+>> }
+PS C:\users\theeba\day3> get-content .\var.log
+[11/27/2024 17:34:29]Cannot find path 'C:\nofile.txt' because it does not exist.
+PS C:\users\theeba\day3>
+
+==============================================================================================================
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
