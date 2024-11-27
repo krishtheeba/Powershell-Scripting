@@ -1,0 +1,723 @@
+$arr_Var=@()
+
+$var= 10,20,30   ===> 
+
+$var+1000 ===> 10,20,30,1000
+
+               |......... |
+               0           3
+		-4	  -1
+
+$var[index]===> $var[0]==> 10 ===> $var[-1]
+
+$a.gettype()
+
+$a.foreach()
+|       |-----------method
+object
+
+
+Foreach( $v in collection){
+		code statement
+}
+
+
+$a.where()
+
+$a[index]    ===> value
+
+$a.IndexOf("value")---> index
+
+$a.split(delimeter)
+
+==============================================================================================
+Script
+=====
+PS C:\users\theeba> $var=10,20,30,40
+PS C:\users\theeba>
+PS C:\users\theeba> $var.gettype()  # Object.member   -  get-member
+
+IsPublic IsSerial Name                                     BaseType
+-------- -------- ----                                     --------
+True     True     Object[]                                 System.Array
+
+
+PS C:\users\theeba> $a=@(10,3,4.56,"Data",$true)
+PS C:\users\theeba>
+PS C:\users\theeba> $a
+10
+3
+4.56
+Data
+True
+PS C:\users\theeba> $a.gettype()
+
+IsPublic IsSerial Name                                     BaseType
+-------- -------- ----                                     --------
+True     True     Object[]                                 System.Array
+
+
+PS C:\users\theeba> $a[0]
+10
+PS C:\users\theeba> $a[1]
+3
+PS C:\users\theeba> $a[-1]
+True
+PS C:\users\theeba> $a[0].gettype()
+
+IsPublic IsSerial Name                                     BaseType
+-------- -------- ----                                     --------
+True     True     Int32                                    System.ValueType
+
+
+PS C:\users\theeba> $a[0].gettype().name
+Int32
+PS C:\users\theeba> $a[1].gettype().name
+Int32
+PS C:\users\theeba> $a[-1].gettype().name
+Boolean
+PS C:\users\theeba> $a[1]="Test.log"
+PS C:\users\theeba> $a[1]
+Test.log
+PS C:\users\theeba> $a+ 1000
+10
+Test.log
+4.56
+Data
+True
+1000
+
+PS C:\users\theeba> $a.length
+5
+PS C:\users\theeba> $a.count
+5
+PS C:\users\theeba> $a
+10
+Test.log
+4.56
+Data
+True
+PS C:\users\theeba> $a.foreach({$_})
+10
+Test.log
+4.56
+Data
+True
+PS C:\users\theeba> $var=@(10,20,30,40,50)
+PS C:\users\theeba> $var.gettype()
+
+IsPublic IsSerial Name                                     BaseType
+-------- -------- ----                                     --------
+True     True     Object[]                                 System.Array
+
+
+PS C:\users\theeba> $var.foreach({$_})
+10
+20
+30
+40
+50
+PS C:\users\theeba> $var.foreach({$_ + 100})
+110
+120
+130
+140
+150
+PS C:\users\theeba> @("05/27/2024","6/07/2000").foreach([datetime])
+
+27 May 2024 00:00:00
+07 June 2000 00:00:00
+
+
+PS C:\users\theeba> "abc".toupper()   #  object.method  -->
+ABC
+PS C:\users\theeba> ("python","perl","java","c").foreach({$_.toupper()})
+>>
+PYTHON
+PERL
+JAVA
+C
+PS C:\users\theeba> ("python","perl","java","c").foreach("Toupper")
+PYTHON
+PERL
+JAVA
+C
+PS C:\users\theeba> ("python","perl","java","c").foreach({$_.length -gt 2})
+True
+True
+True
+False
+PS C:\users\theeba> ("python","perl","java","c").where({$_.length -gt 2})
+python
+perl
+java
+PS C:\users\theeba> $a
+10
+Test.log
+4.56
+Data
+True
+PS C:\users\theeba> $a.indexOf(10)
+0
+PS C:\users\theeba> $a.indexOf("Data")
+3
+PS C:\users\theeba> $a.indexOf("True")
+-1
+PS C:\users\theeba> $s="root:x:bin:bash:0:test"
+PS C:\users\theeba> $s.split(":")
+root
+x
+bin
+bash
+0
+test
+PS C:\users\theeba> $var=$s.split(":")
+PS C:\users\theeba> $var.gettype()
+
+IsPublic IsSerial Name                                     BaseType
+-------- -------- ----                                     --------
+True     True     String[]                                 System.Array
+
+
+PS C:\users\theeba> #      $====> @
+
+PS C:\users\theeba> $name,$dept,$place="Kumar,sales,Bengaluru".split(",")
+PS C:\users\theeba> $name
+Kumar
+PS C:\users\theeba> $dept
+sales
+PS C:\users\theeba> $place
+Bengaluru
+PS C:\users\theeba> $a="kumar","sales","pune"    # this is an array
+PS C:\users\theeba> $a.gettype()
+
+IsPublic IsSerial Name                                     BaseType
+-------- -------- ----                                     --------
+True     True     Object[]                                 System.Array
+
+
+PS C:\users\theeba> $a.split(",")[0]
+kumar
+PS C:\users\theeba> $a.split(",")[1]
+sales
+PS C:\users\theeba> $a.split(",")[2]
+pune
+PS C:\users\theeba>
+PS C:\users\theeba> $n,$d,$p= $a.split(",")
+PS C:\users\theeba> $n
+kumar
+PS C:\users\theeba> $d
+sales
+PS C:\users\theeba> $p
+pune
+
+=====================================================================================================
+Task
+=====
+write a powershell script
+
+given Array:
+@("ram,sales,1000", "jack,prod,2000", "sam,hr,3000", "Vishnu,Prod,3000")
+
+
+Display Emp name and Working department to <STDOUT>
+
+Calculate the sum of cost of all emp's cost
+
+Display the total cost to <STDOUT>
+
+
+Note:- use split(",") 
+
+==========================================================================================================
+
+
+Array- sequential 
+
+Associative (or) dictionary (or) Map -----> hash
+
+Hash-- collection of unordered values --> DATA---> (key/value)
+                       ----------
+                         |------------- ["key"]
+Array - collection of ordered values ---> DATA ---> Single
+                        ----
+                          |--- index
+
+
+
+$arrayname[index]---> value
+----------
+|
+Object
+
+$var[0] ---> array
+$var["string"]----> hash
+
+empty array---> $a=@()
+
+empty hash ---> $a=@{}
+
+
+
+$hash_variable = @{ KEY1=VALUE1 ; KEY2=VALUE2 ; KEY3=VALUE3...KEYN=VALUEN }
+
+Array					VS			Hash
+
+
+collection of ordered					collection of unordered
+
+index [int]					        key  ["string"]
+
+$v=@()							$v=@{}
+
+$v=@(10 , 20 , 30 )					$v= @{ "K1"="v1" ; "K2" = "V2"}
+
+--------------------
+10  |  20    | 30
+
+0       1      2
+
+-3      -2     -1					key  |   value
+				                    |  -----------------| 
+                                                    |  k1     |   v1   |   updatedvalue
+                                                    |  k2     |   v2   |
+
+data-single						data-> (key/value)
+
+
+$v[0]	--> 10					$v["K1"]---> V1
+
+$v[0] = "data"                                  $v[old_key]= "updatedvalue"
+
+
+$v= $v+ "newdata"                                $v["new-key"]="new_value"
+							(or)
+						 $v.add("key","value")
+
+						$v.add("old_key","new_value")---> error
+
+
+=======================================================================================================
+
+Script
+======
+PS C:\users\theeba\day3> $h=@{}  # empty hash
+PS C:\users\theeba\day3> $h.gettype()
+
+IsPublic IsSerial Name                                     BaseType
+-------- -------- ----                                     --------
+True     True     Hashtable                                System.Object
+
+
+PS C:\users\theeba\day3> $h.gettype().name
+Hashtable
+PS C:\users\theeba\day3> $h.length
+1
+PS C:\users\theeba\day3> $h.count
+0
+PS C:\users\theeba\day3> $h
+PS C:\users\theeba\day3>
+PS C:\users\theeba\day3> # $hash_variable = @{ KEY1=VALUE1 ; KEY2=VALUE2 ; KEY3=VALUE3...KEYN=VALUEN }
+PS C:\users\theeba\day3>
+PS C:\users\theeba\day3> $h= @{ "F1"= "C:\p1.conf" ; "F2" = " C:\Users\theeba"; "F3"=100; "F4"= 1.344}
+PS C:\users\theeba\day3>
+PS C:\users\theeba\day3> $h.count
+4
+PS C:\users\theeba\day3> $h
+
+Name                           Value
+----                           -----
+F2                              C:\Users\theeba
+F4                             1.344
+F3                             100
+F1                             C:\p1.conf
+
+
+PS C:\users\theeba\day3> $h["F1"]
+C:\p1.conf
+PS C:\users\theeba\day3> $h["F2"]
+ C:\Users\theeba
+PS C:\users\theeba\day3> $h["F3"]
+100
+PS C:\users\theeba\day3> $h["F4"]
+1.344
+PS C:\users\theeba\day3> $h["F4"]="/var/log/repo.log"
+PS C:\users\theeba\day3> $h
+
+Name                           Value
+----                           -----
+F2                              C:\Users\theeba
+F4                             /var/log/repo.log
+F3                             100
+F1                             C:\p1.conf
+
+
+PS C:\users\theeba\day3> $h["F5"] ="p1.log"
+PS C:\users\theeba\day3> $h
+
+Name                           Value
+----                           -----
+F2                              C:\Users\theeba
+F4                             /var/log/repo.log
+F3                             100
+F1                             C:\p1.conf
+F5                             p1.log
+
+
+PS C:\users\theeba\day3> $h.add("F7","error.log")
+PS C:\users\theeba\day3> $h
+
+Name                           Value
+----                           -----
+F2                              C:\Users\theeba
+F7                             error.log
+F4                             /var/log/repo.log
+F1                             C:\p1.conf
+F3                             100
+F5                             p1.log
+
+
+PS C:\users\theeba\day3> $h.add("F1","NEW_DATA")
+Exception calling "Add" with "2" argument(s): "Item has already been added. Key in dictionary: 'F1'  Key
+being added: 'F1'"
+At line:1 char:1
++ $h.add("F1","NEW_DATA")
++ ~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (:) [], MethodInvocationException
+    + FullyQualifiedErrorId : ArgumentException
+
+PS C:\users\theeba\day3> $h["F1"]="NEW_DATA"
+PS C:\users\theeba\day3> $h
+
+Name                           Value
+----                           -----
+F2                              C:\Users\theeba
+F7                             error.log
+F4                             /var/log/repo.log
+F1                             NEW_DATA
+F3                             100
+F5                             p1.log
+
+
+PS C:\users\theeba\day3> $h.keys
+F2
+F7
+F4
+F1
+F3
+F5
+PS C:\users\theeba\day3> $h.values
+ C:\Users\theeba
+error.log
+/var/log/repo.log
+NEW_DATA
+100
+p1.log
+PS C:\users\theeba\day3> foreach ($var in $h.keys){
+>> echo $var
+>> }
+F2
+F7
+F4
+F1
+F3
+F5
+PS C:\users\theeba\day3> foreach ($var in $h.keys){
+>> echo " $var `t $h[$var] "
+>> }
+ F2      System.Collections.Hashtable[F2]
+ F7      System.Collections.Hashtable[F7]
+ F4      System.Collections.Hashtable[F4]
+ F1      System.Collections.Hashtable[F1]
+ F3      System.Collections.Hashtable[F3]
+ F5      System.Collections.Hashtable[F5]
+PS C:\users\theeba\day3> foreach ($var in $h.keys){
+>> echo " $var `t  $($h[$var]) "
+>> }
+ F2        C:\Users\theeba
+ F7       error.log
+ F4       /var/log/repo.log
+ F1       NEW_DATA
+ F3       100
+ F5       p1.log
+PS C:\users\theeba\day3> foreach ($var in $h.keys){
+>> echo " Key : $var `t  Value: $($h[$var]) "
+>> }
+ Key : F2         Value:  C:\Users\theeba
+ Key : F7         Value: error.log
+ Key : F4         Value: /var/log/repo.log
+ Key : F1         Value: NEW_DATA
+ Key : F3         Value: 100
+ Key : F5         Value: p1.log
+
+
+--------------------------------------------------------------------------------------------------------
+
+Array ->  @()   ---> index based
+
+hash  -> @{}   ---> key based
+
+
+$a=@( @{..}, @(...), @{...})   => Array of hash,Array,hash
+   |  ======  ======  =======
+        0       1       2
+
+# add new value to hash--> hashname["newkey"]="newvalue"   (or)  hashname.add("newkey","newvalue")
+
+$a[0] ["k1"] = "p1.log"
+ ===
+  |
+  hashname
+
+#add new value to array -> arrayname + "new_value"
+
+$a[1] + 1000
+
+
+# add new value to hash--> hashname["newkey"]="newvalue"   (or)  hashname.add("newkey","newvalue")
+$a[2].add("host1","1292.189.1.2")
+==========================================================================================================
+script
+------
+
+PS C:\users\theeba\day3> $a=@(@(),@(),@())
+PS C:\users\theeba\day3> $a=@(@{},@(),@{})
+PS C:\users\theeba\day3>
+PS C:\users\theeba\day3>
+PS C:\users\theeba\day3>
+PS C:\users\theeba\day3>
+PS C:\users\theeba\day3>
+PS C:\users\theeba\day3>
+PS C:\users\theeba\day3>
+PS C:\users\theeba\day3> $a.gettype()
+
+IsPublic IsSerial Name                                     BaseType
+-------- -------- ----                                     --------
+True     True     Object[]                                 System.Array
+
+
+PS C:\users\theeba\day3> $a[0].gettype()
+
+IsPublic IsSerial Name                                     BaseType
+-------- -------- ----                                     --------
+True     True     Hashtable                                System.Object
+
+
+PS C:\users\theeba\day3> $a[1].gettype()
+
+IsPublic IsSerial Name                                     BaseType
+-------- -------- ----                                     --------
+True     True     Object[]                                 System.Array
+
+
+PS C:\users\theeba\day3> $a[2].gettype()
+
+IsPublic IsSerial Name                                     BaseType
+-------- -------- ----                                     --------
+True     True     Hashtable                                System.Object
+
+
+PS C:\users\theeba\day3> $a[0]["k1"]="p1.log"
+PS C:\users\theeba\day3> $a
+
+Name                           Value
+----                           -----
+k1                             p1.log
+
+
+PS C:\users\theeba\day3> $a[0]
+
+Name                           Value
+----                           -----
+k1                             p1.log
+
+
+PS C:\users\theeba\day3> $a[1] + 1000
+1000
+PS C:\users\theeba\day3> $a
+
+Name                           Value
+----                           -----
+k1                             p1.log
+
+
+PS C:\users\theeba\day3> $a[1]
+PS C:\users\theeba\day3> $a[1]=$a[1] + 1000
+PS C:\users\theeba\day3> $a[1]
+1000
+PS C:\users\theeba\day3> $a
+
+Name                           Value
+----                           -----
+k1                             p1.log
+1000
+
+
+PS C:\users\theeba\day3> $a[2].add("host01","192.168.1.2")
+PS C:\users\theeba\day3> $a
+
+Name                           Value
+----                           -----
+k1                             p1.log
+1000
+host01                         192.168.1.2
+
+
+PS C:\users\theeba\day3> $a[3] + 1000
+1000
+PS C:\users\theeba\day3> $a[3]=$a[3] + 1000
+Index was outside the bounds of the array.
+At line:1 char:1
++ $a[3]=$a[3] + 1000
++ ~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : OperationStopped: (:) [], IndexOutOfRangeException
+    + FullyQualifiedErrorId : System.IndexOutOfRangeException
+
+PS C:\users\theeba\day3> $h = @{"k1"="v1" ; "k2"= "v2"; "k3"= @("value1","Value2","Value3")}
+PS C:\users\theeba\day3> $h["k1"]
+v1
+PS C:\users\theeba\day3> $h["k3"]
+value1
+Value2
+Value3
+PS C:\users\theeba\day3> $process=@{}
+PS C:\users\theeba\day3>
+PS C:\users\theeba\day3>
+PS C:\users\theeba\day3> $process["notepad"] ="C:\winx\notepad.exe"
+PS C:\users\theeba\day3> $process["python"] = "C:\python3\python.exe"
+PS C:\users\theeba\day3> $process
+
+Name                           Value
+----                           -----
+python                         C:\python3\python.exe
+notepad                        C:\winx\notepad.exe
+
+
+PS C:\users\theeba\day3> $app =@{}
+PS C:\users\theeba\day3>
+PS C:\users\theeba\day3> $app["App1"] =@("python3","Perl","Ruby")
+PS C:\users\theeba\day3> $app["App2"] = @("DB1","DB2","DB3")
+PS C:\users\theeba\day3>
+PS C:\users\theeba\day3> $app.add("App3", @("v1","v2"))
+PS C:\users\theeba\day3> $app
+
+Name                           Value
+----                           -----
+App1                           {python3, Perl, Ruby}
+App2                           {DB1, DB2, DB3}
+App3                           {v1, v2}
+
+
+PS C:\users\theeba\day3> $app["App1"]
+python3
+Perl
+Ruby
+PS C:\users\theeba\day3> $app["App1"][0]
+python3
+PS C:\users\theeba\day3> $app["App2"][0]
+DB1
+PS C:\users\theeba\day3> $app["App3"][0]
+v1
+PS C:\users\theeba\day3> $app["App1"][1..2]
+Perl
+Ruby
+
+
+
+
+
+PS C:\users\theeba\day3> $h =@{"k1" = @{"kk1"="v1"; "kk2"= "v2"; "kk3"= "v3"} }
+PS C:\users\theeba\day3>
+PS C:\users\theeba\day3> $h.count
+1
+PS C:\users\theeba\day3> $p= @{ "shell" = (get-process powershell);  "notepad" = (get-process notepad) }
+PS C:\users\theeba\day3>
+PS C:\users\theeba\day3> $p.count
+2
+PS C:\users\theeba\day3> $p["shell"].count
+1
+PS C:\users\theeba\day3> $p["shell"][0]
+
+Handles  NPM(K)    PM(K)      WS(K)     CPU(s)     Id  SI ProcessName
+-------  ------    -----      -----     ------     --  -- -----------
+    812      35    70744      87364       7.36  26012   3 powershell
+
+
+PS C:\users\theeba\day3> $p["shell"][-1]
+
+Handles  NPM(K)    PM(K)      WS(K)     CPU(s)     Id  SI ProcessName
+-------  ------    -----      -----     ------     --  -- -----------
+    812      35    70744      87364       7.36  26012   3 powershell
+
+
+PS C:\users\theeba\day3> $p["notepad"][-1]
+
+Handles  NPM(K)    PM(K)      WS(K)     CPU(s)     Id  SI ProcessName
+-------  ------    -----      -----     ------     --  -- -----------
+   1250      52    83436     110776      51.03  33660   3 Notepad
+
+
+PS C:\users\theeba\day3> $p["notepad"]
+
+Handles  NPM(K)    PM(K)      WS(K)     CPU(s)     Id  SI ProcessName
+-------  ------    -----      -----     ------     --  -- -----------
+    746      34    64828      62780       6.50   1216   3 Notepad
+    195      12     2828      11460       0.36  26396   3 Notepad
+   1250      52    83436     110776      51.03  33660   3 Notepad
+
+
+PS C:\users\theeba\day3> $p["notepad"][1..2]
+
+Handles  NPM(K)    PM(K)      WS(K)     CPU(s)     Id  SI ProcessName
+-------  ------    -----      -----     ------     --  -- -----------
+    195      12     2828      11460       0.36  26396   3 Notepad
+   1250      52    83436     110776      51.03  33660   3 Notepad
+
+
+PS C:\users\theeba\day3> $p["notepad"][-1]
+
+Handles  NPM(K)    PM(K)      WS(K)     CPU(s)     Id  SI ProcessName
+-------  ------    -----      -----     ------     --  -- -----------
+   1250      52    83436     110776      51.03  33660   3 Notepad
+
+
+PS C:\users\theeba\day3> $p.add("service", (get-service))
+PS C:\users\theeba\day3> $p.count
+3
+PS C:\users\theeba\day3> $p["service"].count
+297
+PS C:\users\theeba\day3> $p["service"][4..9]
+
+Status   Name               DisplayName
+------   ----               -----------
+Running  Appinfo            Application Information
+Stopped  AppReadiness       App Readiness
+Stopped  AppXSvc            AppX Deployment Service (AppXSVC)
+Running  AudioEndpointBu... Windows Audio Endpoint Builder
+Running  Audiosrv           Windows Audio
+Stopped  autotimesvc        Cellular Time
+
+
+
+PS C:\users\theeba\day3> $p["service"][4..9]| where-object {$_.status -eq "Stopped"}
+
+Status   Name               DisplayName
+------   ----               -----------
+Stopped  AppReadiness       App Readiness
+Stopped  AppXSvc            AppX Deployment Service (AppXSVC)
+Stopped  autotimesvc        Cellular Time
+
+
+
+Array of hash
+hash of Array
+
+
+hash of hash
+=============================================================================================================
+
+
+
+
+
+
